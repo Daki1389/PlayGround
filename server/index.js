@@ -29,6 +29,10 @@ app.disable('x-powered-by')
 app.use(express.json({ limit: '1mb' }))
 app.use('/api', (req, res, next) => {
   res.setHeader('Cache-Control', 'no-store')
+  res.setHeader('Access-Control-Allow-Origin', process.env.CORS_ORIGIN || '*')
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+  if (req.method === 'OPTIONS') return res.sendStatus(204)
   next()
 })
 

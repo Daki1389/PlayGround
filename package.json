@@ -9,9 +9,14 @@
     "build": "vite build --base ./",
     "start": "node server/index.js",
     "preview": "vite preview",
-    "seed": "node server/seed-runner.js"
+    "seed": "node server/seed-runner.js",
+    "cap:sync": "npm run build && cap sync android",
+    "android": "npm run cap:sync && cap open android",
+    "android:build": "npm run cap:sync && cd android && ./gradlew assembleDebug"
   },
   "dependencies": {
+    "@capacitor/android": "^6.2.3",
+    "@capacitor/core": "^6.2.3",
     "@fontsource/barlow-condensed": "^5.1.1",
     "@fontsource/manrope": "^5.1.1",
     "express": "^4.21.2",
@@ -21,6 +26,7 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@capacitor/cli": "^6.2.3",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
     "concurrently": "^9.1.2",
