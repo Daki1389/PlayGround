@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#071b17">
+<title>Soccer Agent — One More Goal</title>
+<style>
+:root{color-scheme:dark;--ink:#f3f5e9;--muted:#a9b9ac;--lime:#d8ff58;--teal:#51e2bd;--panel:#10231f;--line:rgba(232,246,229,.13)}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#071713;color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;user-select:none;-webkit-user-select:none}body{display:grid;place-items:center;background:radial-gradient(ellipse at 50% 40%,#173b30 0,#0a211b 55%,#06120f 100%)}button{font:inherit;color:inherit}#app{position:relative;width:min(100vw,1440px);height:min(100dvh,900px);min-height:420px;display:flex;flex-direction:column;padding:clamp(12px,2.1vw,28px);gap:clamp(9px,1.4vw,18px);overflow:hidden}.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex:none}.brand{display:flex;align-items:center;gap:11px}.brand-mark{width:39px;height:39px;border-radius:13px;background:var(--lime);display:grid;place-items:center;color:#14251c;box-shadow:0 0 28px #d8ff583b}.brand-mark svg{width:25px;height:25px}.brand-copy{display:flex;flex-direction:column;line-height:1}.brand-copy strong{font-size:14px;letter-spacing:.16em;font-weight:900}.brand-copy small{margin-top:5px;color:#8da397;font-size:9px;letter-spacing:.2em;font-weight:700}.top-right{display:flex;align-items:center;gap:9px}.pill{display:flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:99px;background:#0d211d;padding:8px 12px;color:#b9c9bd;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}.live-dot{height:6px;width:6px;border-radius:50%;background:#aaff55;box-shadow:0 0 8px #aaff55}.icon-btn{width:36px;height:36px;display:grid;place-items:center;border:1px solid var(--line);border-radius:12px;background:#0d211d;cursor:pointer;transition:.18s}.icon-btn:hover{border-color:#d8ff58aa;color:var(--lime)}.icon-btn svg{width:17px;height:17px}.main{min-height:0;flex:1;display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:clamp(12px,2vw,24px)}.arena{position:relative;min-width:0;min-height:0;border:1px solid #d5f8dc24;border-radius:22px;background:#0b2119;overflow:hidden;box-shadow:0 25px 70px #0006,inset 0 1px #ffffff10}.arena:after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;box-shadow:inset 0 0 70px #07120b66}.game-canvas{display:block;width:100%;height:100%;touch-action:none}.side{display:flex;flex-direction:column;gap:12px;min-height:0}.score-card,.mission-card,.control-card{border:1px solid var(--line);background:linear-gradient(145deg,#132923,#0b1c18);border-radius:18px;padding:17px}.score-card{padding:18px 17px 15px}.card-label{color:#81958a;font-size:9px;letter-spacing:.2em;font-weight:900;text-transform:uppercase}.score-row{display:flex;align-items:center;justify-content:space-between;margin:13px 0 10px}.team{display:flex;flex-direction:column;align-items:center;gap:7px;min-width:58px}.team-badge{width:34px;height:34px;display:grid;place-items:center;border-radius:11px;font-size:17px;font-weight:900}.team-you .team-badge{background:#d8ff58;color:#203018}.team-rival .team-badge{background:#ff705f;color:#28120f}.team-name{font-size:8px;font-weight:900;letter-spacing:.12em;color:#9eb0a4}.score{font-variant-numeric:tabular-nums;font-size:32px;font-weight:950;letter-spacing:-.06em;display:flex;align-items:center;gap:7px}.score span{color:#54685c;font-size:20px}.period-row{display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid var(--line);color:#92a499;font-size:10px;font-weight:800;letter-spacing:.08em}.clock{font-variant-numeric:tabular-nums;color:#f0f3e8;font-size:12px}.mission-card{flex:1;min-height:115px;display:flex;flex-direction:column;justify-content:space-between}.mission-top{display:flex;align-items:center;justify-content:space-between}.mission-icon{width:31px;height:31px;border-radius:10px;display:grid;place-items:center;background:#d8ff581c;color:var(--lime);font-size:15px}.mission-card h3{margin:16px 0 4px;font-size:15px;letter-spacing:-.02em}.mission-card p{margin:0;color:#91a69a;font-size:11px;line-height:1.55}.progress-wrap{margin-top:17px}.progress-meta{display:flex;justify-content:space-between;color:#91a69a;font-size:9px;font-weight:800;letter-spacing:.08em}.progress-track{height:5px;margin-top:8px;background:#30423a;border-radius:99px;overflow:hidden}.progress-fill{height:100%;width:0;background:var(--lime);border-radius:inherit;transition:width .25s}.control-card{padding:14px 15px}.controls-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.controls-title strong{font-size:10px;letter-spacing:.14em;text-transform:uppercase}.controls-title span{font-size:8px;color:#82948a}.key-row{display:flex;align-items:center;justify-content:space-between;margin:7px 0;color:#91a69a;font-size:10px}.keycap{min-width:23px;height:21px;padding:0 5px;display:grid;place-items:center;border:1px solid #60726866;border-bottom-width:2px;border-radius:6px;color:#d9e3d8;font-size:9px;font-weight:900}.keycaps{display:flex;gap:3px}.footnote{flex:none;display:flex;justify-content:space-between;align-items:center;padding:0 4px;color:#71877a;font-size:9px;font-weight:700;letter-spacing:.09em;text-transform:uppercase}.footnote span:last-child{color:#90a398}.overlay{position:absolute;inset:0;z-index:5;display:grid;place-items:center;background:linear-gradient(0deg,#071511d9,#07151199);backdrop-filter:blur(7px);transition:opacity .25s}.overlay.hidden{opacity:0;pointer-events:none}.modal{width:min(430px,calc(100% - 34px));padding:clamp(25px,4vw,42px);border:1px solid #d5f8dc33;border-radius:24px;background:linear-gradient(155deg,#17352c,#0d211b 75%);box-shadow:0 24px 80px #0009;text-align:center;position:relative;overflow:hidden}.modal:before{content:"";position:absolute;width:240px;height:240px;border-radius:50%;background:#d8ff5810;filter:blur(1px);top:-160px;left:calc(50% - 120px)}.eyebrow{position:relative;color:var(--lime);font-size:9px;font-weight:950;letter-spacing:.24em;text-transform:uppercase}.modal h1{position:relative;margin:12px 0 10px;font-size:clamp(35px,8vw,52px);line-height:.96;letter-spacing:-.07em;font-weight:1000}.modal h1 em{font-style:normal;color:var(--lime)}.modal p{position:relative;margin:0 auto;color:#a6b8aa;font-size:13px;line-height:1.65;max-width:290px}.modal-players{height:74px;margin:17px auto 19px;display:flex;align-items:center;justify-content:center;gap:16px}.mini-player{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:15px;box-shadow:0 5px 12px #0006}.mini-player.you{background:var(--lime);color:#203018}.mini-player.foe{background:#ff705f;color:#28120f}.mini-ball{width:16px;height:16px;border:2px solid #f4f4e9;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff 0 2px,#1c2922 3px 4px,#f6f7ed 5px);box-shadow:0 0 22px #ffffff6b}.versus{font-size:8px;color:#6d8275;letter-spacing:.15em;font-weight:900}.primary-btn{position:relative;width:100%;height:52px;margin-top:5px;border:0;border-radius:13px;background:var(--lime);color:#172417;font-size:12px;font-weight:950;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;box-shadow:0 8px 28px #d8ff5830;transition:transform .16s,box-shadow .16s}.primary-btn:hover{transform:translateY(-2px);box-shadow:0 11px 32px #d8ff5850}.primary-btn:active{transform:translateY(0)}.modal-hint{position:relative;margin-top:13px!important;font-size:9px!important;letter-spacing:.05em;color:#83988a!important}.banner{position:absolute;z-index:3;top:17px;left:50%;transform:translate(-50%,-12px);padding:10px 20px;border:1px solid #d8ff5870;border-radius:99px;background:#0b1b16eF;color:var(--lime);font-size:11px;font-weight:950;letter-spacing:.15em;text-transform:uppercase;opacity:0;transition:.25s;pointer-events:none;white-space:nowrap;box-shadow:0 8px 24px #0005}.banner.show{opacity:1;transform:translate(-50%,0)}.touch-controls{display:none;position:absolute;inset:auto 0 13px;z-index:2;justify-content:space-between;align-items:flex-end;padding:0 16px;pointer-events:none}.dpad{display:grid;grid-template-columns:repeat(3,43px);grid-template-rows:repeat(2,43px);gap:4px;pointer-events:auto}.touch-btn{border:1px solid #ffffff35;background:#081713bd;backdrop-filter:blur(8px);border-radius:13px;color:#eff4e8;font-size:16px;font-weight:900;touch-action:none;box-shadow:0 5px 15px #0004}.touch-btn:active,.touch-btn.pressed{background:#d8ff58;color:#142117}.touch-up{grid-column:2}.touch-left{grid-column:1;grid-row:2}.touch-down{grid-column:2;grid-row:2}.touch-right{grid-column:3;grid-row:2}.action-buttons{display:flex;gap:9px;align-items:flex-end;pointer-events:auto}.action-btn{width:59px;height:59px;border-radius:50%;font-size:10px;letter-spacing:.08em}.action-btn.kick{width:70px;height:70px;background:#d8ff58;color:#1c291a;border:0;font-size:11px}.action-btn.sprint{background:#10231dcc}.action-btn small{display:block;font-size:7px;opacity:.7;margin-top:2px}
+@media(max-width:760px){#app{padding:12px;gap:9px}.main{grid-template-columns:minmax(0,1fr) 160px;gap:9px}.score-card,.mission-card{padding:12px}.control-card{padding:11px}.score{font-size:27px}.team-name{font-size:7px}.team{min-width:47px}.pill{font-size:8px;padding:7px 9px}.side{gap:9px}.mission-card h3{font-size:13px}.mission-card p{font-size:10px}.key-row{font-size:9px}.footnote{font-size:8px}}
+@media(max-width:560px){#app{padding:10px;gap:8px;min-height:0}.topbar{height:35px}.brand-mark{height:32px;width:32px;border-radius:10px}.brand-copy strong{font-size:12px}.brand-copy small{font-size:7px}.main{display:flex;flex-direction:column;gap:8px}.arena{flex:1;min-height:0;border-radius:17px}.side{display:grid;grid-template-columns:1fr 1fr;gap:7px;flex:none}.score-card{grid-column:1;grid-row:1;padding:9px 11px}.score-row{margin:6px 0}.team{flex-direction:row;gap:5px}.team-badge{width:25px;height:25px;border-radius:8px;font-size:13px}.team-name{font-size:7px}.score{font-size:23px;gap:4px}.score span{font-size:15px}.card-label{font-size:7px}.period-row{padding-top:6px;font-size:8px}.clock{font-size:10px}.mission-card{grid-column:2;grid-row:1;padding:9px 11px;min-height:0}.mission-top{display:none}.mission-card h3{margin:0 0 3px;font-size:11px}.mission-card p{font-size:8px;line-height:1.3}.progress-wrap{margin-top:6px}.progress-meta{font-size:7px}.progress-track{height:4px;margin-top:4px}.control-card{display:none}.footnote{font-size:7px;padding:0 2px}.touch-controls{display:flex}.arena:after{box-shadow:inset 0 0 35px #07120b66}.top-right .pill{display:none}.banner{top:9px;font-size:9px;padding:8px 14px}.dpad{grid-template-columns:repeat(3,37px);grid-template-rows:repeat(2,37px);gap:3px}.action-btn{width:51px;height:51px;font-size:9px}.action-btn.kick{width:61px;height:61px;font-size:10px}}
+@media(max-height:580px) and (min-width:561px){#app{padding:10px;gap:8px}.topbar{min-height:32px}.main{grid-template-columns:minmax(0,1fr) 190px}.arena{border-radius:16px}.score-card,.mission-card,.control-card{padding:11px}.side{gap:8px}.mission-card h3{margin-top:8px}.progress-wrap{margin-top:9px}}
+</style>
+</head>
+<body>
+<div id="app">
+<header class="topbar"><div class="brand"><div class="brand-mark"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 13.2 8.6 5l3.1 3.2L9.4 12l4.4-1.6 3.4 2.8-4.1 1.7L10 20l-2.1-4.3L4 13.2Z" fill="currentColor"/><path d="m14.1 10.4 2-4.2 3.5 2.5-.8 4.5-2.6.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="brand-copy"><strong>SOCCER AGENT</strong><small>STREET LEAGUE • SEASON 01</small></div></div><div class="top-right"><div class="pill"><i class="live-dot"></i> LIVE MATCH</div><button class="icon-btn" id="soundBtn" aria-label="Toggle sound" title="Sound on/off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></button><button class="icon-btn" id="pauseBtn" aria-label="Pause match" title="Pause (P)"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg></button></div></header>
+<main class="main"><section class="arena" id="arena" aria-label="Soccer field"><canvas id="game" class="game-canvas" aria-label="Soccer game"></canvas><div class="banner" id="banner">GOAL!</div><div class="touch-controls" aria-label="Touch controls"><div class="dpad"><button class="touch-btn touch-up" data-key="ArrowUp" aria-label="Move up">▲</button><button class="touch-btn touch-left" data-key="ArrowLeft" aria-label="Move left">◀</button><button class="touch-btn touch-down" data-key="ArrowDown" aria-label="Move down">▼</button><button class="touch-btn touch-right" data-key="ArrowRight" aria-label="Move right">▶</button></div><div class="action-buttons"><button class="touch-btn action-btn sprint" data-key="ShiftLeft">DASH<small>HOLD</small></button><button class="touch-btn action-btn kick" data-key="Space">KICK<small>HOLD / RELEASE</small></button></div></div><div class="overlay" id="overlay"><div class="modal" id="modal"><div class="eyebrow" id="modalEyebrow">A new season starts now</div><h1 id="modalTitle">OWN THE<br><em>FIELD.</em></h1><p id="modalText">One pitch. One rival. Make your move and prove you belong in the street league.</p><div class="modal-players"><div class="mini-player you">★</div><div class="mini-ball"></div><div class="versus">VS</div><div class="mini-player foe">✦</div></div><button class="primary-btn" id="primaryBtn">KICK OFF</button><p class="modal-hint" id="modalHint">WASD / ARROWS TO MOVE · HOLD SPACE TO CHARGE YOUR SHOT</p></div></div></section>
+<aside class="side"><section class="score-card"><div class="card-label">MATCH SCORE</div><div class="score-row"><div class="team team-you"><div class="team-badge">★</div><div class="team-name">YOU</div></div><div class="score"><b id="youScore">0</b><span>:</span><b id="aiScore">0</b></div><div class="team team-rival"><div class="team-badge">✦</div><div class="team-name">RIVAL</div></div></div><div class="period-row"><span id="period">FIRST HALF</span><span class="clock" id="clock">01:30</span></div></section><section class="mission-card"><div class="mission-top"><span class="card-label">YOUR CONTRACT</span><span class="mission-icon">↗</span></div><div><h3 id="missionTitle">Find the net</h3><p id="missionText">Score 3 goals to complete your first agent contract.</p></div><div class="progress-wrap"><div class="progress-meta"><span>CONTRACT</span><span id="progressText">0 / 3</span></div><div class="progress-track"><div class="progress-fill" id="progress"></div></div></div></section><section class="control-card"><div class="controls-title"><strong>FIELD MANUAL</strong><span>KEYBOARD</span></div><div class="key-row"><span>Move</span><div class="keycaps"><i class="keycap">W</i><i class="keycap">A</i><i class="keycap">S</i><i class="keycap">D</i></div></div><div class="key-row"><span>Charge / shoot</span><i class="keycap">SPACE</i></div><div class="key-row"><span>Dash</span><i class="keycap">SHIFT</i></div><div class="key-row"><span>Pause</span><i class="keycap">P</i></div></section></aside></main>
+<footer class="footnote"><span>⚡ QUICK MATCH • FIRST TO 5 OR TIME</span><span>AGENT RANK: ROOKIE</span></footer>
+</div>
+<script>
+(() => {
+  const canvas = document.getElementById('game');
+  const ctx = canvas.getContext('2d');
+  const $ = (id) => document.getElementById(id);
+  const W = 1000, H = 600, field = { l: 48, r: 952, t: 42, b: 558 };
+  const goalTop = 237, goalBottom = 363;
+  const keys = new Set();
+  let mode = 'ready', lastTime = 0, matchTime = 90, overtime = false;
+  let youScore = 0, aiScore = 0, goals = 0, chargeAt = 0, charge = 0;
+  let bannerTimer = 0, resetTimer = 0, dashCooldown = 0, soundOn = true, audioCtx = null;
+  let particles = [];
+  const player = { x: 290, y: 300, vx: 0, vy: 0, faceX: 1, faceY: 0, r: 19, dash: 0 };
+  const rival = { x: 710, y: 300, vx: 0, vy: 0, faceX: -1, faceY: 0, r: 19, kickWait: 0, dash: 0 };
+  const ball = { x: 500, y: 300, vx: 0, vy: 0, r: 11, spin: 0, trail: [] };
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const norm = (x, y) => { const m = Math.hypot(x, y) || 1; return [x / m, y / m]; };
+
+  function resize() {
+    const rect = canvas.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(rect.width * dpr);
+    canvas.height = Math.round(rect.height * dpr);
+    ctx.setTransform(canvas.width / W, 0, 0, canvas.height / H, 0, 0);
+  }
+  window.addEventListener('resize', resize);
+  new ResizeObserver(resize).observe(canvas);
+  resize();
+
+  function tone(freq, duration, type = 'sine', volume = .035) {
+    if (!soundOn) return;
+    try {
+      audioCtx ||= new (window.AudioContext || window.webkitAudioContext)();
+      const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+      osc.type = type; osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      gain.gain.setValueAtTime(volume, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(.001, audioCtx.currentTime + duration);
+      osc.connect(gain); gain.connect(audioCtx.destination); osc.start(); osc.stop(audioCtx.currentTime + duration);
+    } catch (_) {}
+  }
+  function updateHud() {
+    $('youScore').textContent = youScore;
+    $('aiScore').textContent = aiScore;
+    $('clock').textContent = overtime ? 'GOLDEN' : `${String(Math.floor(matchTime / 60)).padStart(2, '0')}:${String(Math.ceil(matchTime % 60)).padStart(2, '0')}`;
+    $('period').textContent = overtime ? 'SUDDEN DEATH' : matchTime <= 45 ? 'SECOND HALF' : 'FIRST HALF';
+    $('progressText').textContent = `${Math.min(goals, 3)} / 3`;
+    $('progress').style.width = `${Math.min(goals / 3, 1) * 100}%`;
+    if (goals >= 3) { $('missionTitle').textContent = 'Contract complete'; $('missionText').textContent = 'Three goals. The street league knows your name.'; }
+  }
+  function resetPositions() {
+    player.x = 290; player.y = 300; player.vx = player.vy = 0; player.faceX = 1; player.faceY = 0;
+    rival.x = 710; rival.y = 300; rival.vx = rival.vy = 0; rival.faceX = -1; rival.faceY = 0; rival.kickWait = .5;
+    ball.x = 500; ball.y = 300; ball.vx = ball.vy = 0; ball.trail.length = 0; charge = 0;
+  }
+  function showBanner(text) {
+    $('banner').textContent = text;
+    $('banner').classList.add('show'); bannerTimer = 1.25;
+  }
+  function showOverlay(kind) {
+    mode = kind; keys.clear();
+    const overlay = $('overlay');
+    overlay.classList.remove('hidden');
+    $('primaryBtn').textContent = kind === 'ready' ? 'KICK OFF' : kind === 'paused' ? 'RESUME MATCH' : 'PLAY AGAIN';
+    $('modalHint').textContent = kind === 'ready' ? 'WASD / ARROWS TO MOVE · HOLD SPACE TO CHARGE YOUR SHOT' : kind === 'paused' ? 'PRESS P TO RESUME · YOUR MATCH IS ON HOLD' : 'A NEW MATCH IS WAITING FOR YOU';
+    if (kind === 'ready') {
+      $('modalEyebrow').textContent = 'A new season starts now';
+      $('modalTitle').innerHTML = 'OWN THE<br><em>FIELD.</em>';
+      $('modalText').textContent = 'One pitch. One rival. Make your move and prove you belong in the street league.';
+    } else if (kind === 'paused') {
+      $('modalEyebrow').textContent = 'Halftime? Not quite.';
+      $('modalTitle').innerHTML = 'TAKE A<br><em>BREATHER.</em>';
+      $('modalText').textContent = `The score is ${youScore}–${aiScore}. Catch your breath, then get back out there.`;
+    } else {
+      const won = youScore > aiScore;
+      $('modalEyebrow').textContent = won ? 'Contract secured' : youScore === aiScore ? 'A hard-fought draw' : 'The league awaits your comeback';
+      $('modalTitle').innerHTML = won ? 'AGENT<br><em>OF THE DAY.</em>' : youScore === aiScore ? 'EVENLY<br><em>MATCHED.</em>' : 'BACK TO<br><em>TRAINING.</em>';
+      $('modalText').textContent = `Full time: ${youScore}–${aiScore}. ${won ? 'That pitch is yours.' : youScore === aiScore ? 'One more match could settle it.' : 'Every great agent starts somewhere.'}`;
+    }
+  }
+  function startMatch() {
+    if (mode === 'ready' || mode === 'finished') {
+      youScore = 0; aiScore = 0; matchTime = 90; overtime = false;
+      if (mode === 'finished') goals = 0;
+      $('missionTitle').textContent = 'Find the net';
+      $('missionText').textContent = 'Score 3 goals to complete your first agent contract.';
+      updateHud(); resetPositions();
+    }
+    mode = 'playing'; $('overlay').classList.add('hidden'); lastTime = performance.now();
+    tone(540, .12, 'triangle');
+  }
+  $('primaryBtn').addEventListener('click', startMatch);
+  $('pauseBtn').addEventListener('click', () => {
+    if (mode === 'playing') showOverlay('paused'); else if (mode === 'paused') startMatch();
+  });
+  $('soundBtn').addEventListener('click', () => {
+    soundOn = !soundOn;
+    $('soundBtn').style.color = soundOn ? 'var(--lime)' : '#81958a';
+    $('soundBtn').title = soundOn ? 'Sound on' : 'Sound off';
+    if (soundOn) tone(620, .08);
+  });
+
+  function press(key) {
+    if (mode !== 'playing') return;
+    if (key === 'Space') { if (!keys.has(key)) chargeAt = performance.now(); charge = 0; }
+    keys.add(key);
+  }
+  function release(key) {
+    if (key === 'Space' && keys.has(key) && mode === 'playing') shootPlayer();
+    keys.delete(key);
+  }
+  window.addEventListener('keydown', (e) => {
+    const k = e.code;
+    if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(k)) e.preventDefault();
+    if ((k === 'KeyP' || k === 'Escape') && !e.repeat) {
+      if (mode === 'playing') showOverlay('paused'); else if (mode === 'paused') startMatch();
+      return;
+    }
+    if ((k === 'Enter' || k === 'Space') && (mode === 'ready' || mode === 'finished')) { if (k === 'Enter') startMatch(); return; }
+    if (k === 'KeyW') press('ArrowUp'); else if (k === 'KeyS') press('ArrowDown'); else if (k === 'KeyA') press('ArrowLeft'); else if (k === 'KeyD') press('ArrowRight'); else press(k);
+  });
+  window.addEventListener('keyup', (e) => {
+    const k = e.code === 'KeyW' ? 'ArrowUp' : e.code === 'KeyS' ? 'ArrowDown' : e.code === 'KeyA' ? 'ArrowLeft' : e.code === 'KeyD' ? 'ArrowRight' : e.code;
+    release(k);
+  });
+  document.querySelectorAll('.touch-btn').forEach((btn) => {
+    const key = btn.dataset.key;
+    const down = (e) => { e.preventDefault(); btn.classList.add('pressed'); btn.setPointerCapture?.(e.pointerId); press(key); };
+    const up = (e) => { e.preventDefault(); btn.classList.remove('pressed'); release(key); };
+    btn.addEventListener('pointerdown', down); btn.addEventListener('pointerup', up); btn.addEventListener('pointercancel', up); btn.addEventListener('lostpointercapture', up);
+  });
+
+  function kickSound(power) { tone(170 + power * 120, .12, 'triangle', .06); }
+  function shootPlayer() {
+    const dist = Math.hypot(ball.x - player.x, ball.y - player.y);
+    if (dist > 73) return;
+    const power = clamp(.28 + (performance.now() - chargeAt) / 1150, .35, 1);
+    const towardGoal = norm(952 - ball.x, 300 - ball.y);
+    let dx = player.faceX * .68 + towardGoal[0] * .32;
+    let dy = player.faceY * .68 + towardGoal[1] * .32;
+    [dx, dy] = norm(dx, dy);
+    ball.vx = dx * (430 + power * 400); ball.vy = dy * (430 + power * 400);
+    ball.x += dx * 8; ball.y += dy * 8;
+    charge = 0; kickSound(power); burst(ball.x, ball.y, '#eaffaa', 6);
+  }
+  function shootRival() {
+    const direction = norm(-952, 300 - ball.y + (Math.random() - .5) * 55);
+    const power = .74 + Math.random() * .2;
+    ball.vx = direction[0] * (515 + power * 240); ball.vy = direction[1] * (515 + power * 240);
+    ball.x += direction[0] * 8; ball.y += direction[1] * 8;
+    rival.kickWait = 1.15 + Math.random() * .55;
+    tone(155, .1, 'triangle', .035); burst(ball.x, ball.y, '#ffb2a1', 5);
+  }
+  function burst(x, y, color, count) {
+    for (let i = 0; i < count; i++) {
+      const a = Math.random() * Math.PI * 2, speed = 35 + Math.random() * 145;
+      particles.push({x,y,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed,life:.25+Math.random()*.38,max:.63,color,size:2+Math.random()*3});
+    }
+  }
+  function score(side) {
+    if (resetTimer > 0) return;
+    if (side === 'you') { youScore++; goals++; showBanner('GOAL!  +1'); tone(780,.15,'triangle'); setTimeout(() => tone(980,.25,'triangle'),100); }
+    else { aiScore++; showBanner('RIVAL SCORES'); tone(120,.3,'sawtooth',.025); }
+    updateHud(); resetTimer = 1.6;
+    for (let i = 0; i < 38; i++) {
+      const a = Math.random() * Math.PI * 2, speed = 60 + Math.random() * 240;
+      particles.push({x:ball.x,y:ball.y,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed,life:.55+Math.random()*.8,max:1.35,color:side === 'you' ? (Math.random()<.5?'#d8ff58':'#fff4c2') : (Math.random()<.5?'#ff705f':'#ffd0a1'),size:2+Math.random()*4});
+    }
+  }
+  function movePlayer(actor, dx, dy, speed, dt) {
+    if (dx || dy) {
+      [dx, dy] = norm(dx, dy);
+      actor.faceX = dx; actor.faceY = dy;
+    }
+    const targetX = dx * speed, targetY = dy * speed;
+    const smoothing = Math.min(1, dt * 10);
+    actor.vx += (targetX - actor.vx) * smoothing;
+    actor.vy += (targetY - actor.vy) * smoothing;
+    actor.x += actor.vx * dt; actor.y += actor.vy * dt;
+    actor.x = clamp(actor.x, field.l + actor.r + 4, field.r - actor.r - 4);
+    actor.y = clamp(actor.y, field.t + actor.r + 4, field.b - actor.r - 4);
+  }
+  function collidePlayerBall(actor, isRival = false) {
+    let dx = ball.x - actor.x, dy = ball.y - actor.y;
+    let d = Math.hypot(dx, dy) || 1;
+    const min = actor.r + ball.r + 1;
+    if (d < min) {
+      const nx = dx / d, ny = dy / d;
+      ball.x = actor.x + nx * min; ball.y = actor.y + ny * min;
+      const approach = Math.max(0, actor.vx * nx + actor.vy * ny);
+      ball.vx += nx * (38 + approach * .48) + actor.vx * .12;
+      ball.vy += ny * (38 + approach * .48) + actor.vy * .12;
+      if (isRival && rival.kickWait <= 0) shootRival();
+    }
+  }
+  function tick(dt) {
+    if (mode !== 'playing') return;
+    if (!overtime) {
+      matchTime -= dt;
+      if (matchTime <= 0) {
+        matchTime = 0;
+        if (youScore === aiScore) { overtime = true; showBanner('GOLDEN GOAL'); tone(520,.32,'sine'); }
+        else { updateHud(); showOverlay('finished'); return; }
+      }
+    }
+    if (keys.has('Space')) charge = clamp((performance.now() - chargeAt) / 900, 0, 1);
+    dashCooldown = Math.max(0, dashCooldown - dt);
+    rival.kickWait = Math.max(0, rival.kickWait - dt);
+    if (bannerTimer > 0) { bannerTimer -= dt; if (bannerTimer <= 0) $('banner').classList.remove('show'); }
+    if (resetTimer > 0) {
+      resetTimer -= dt;
+      if (resetTimer <= 0) {
+        if (youScore >= 5 || aiScore >= 5 || (overtime && youScore !== aiScore)) { showOverlay('finished'); return; }
+        resetPositions();
+      }
+    } else {
+      const dx = (keys.has('ArrowRight') ? 1 : 0) - (keys.has('ArrowLeft') ? 1 : 0);
+      const dy = (keys.has('ArrowDown') ? 1 : 0) - (keys.has('ArrowUp') ? 1 : 0);
+      const sprinting = keys.has('ShiftLeft') || keys.has('ShiftRight');
+      const speed = sprinting && dashCooldown <= 0 ? 310 : 232;
+      if (sprinting && (dx || dy) && dashCooldown <= 0) { player.dash = .16; dashCooldown = .72; }
+      player.dash = Math.max(0, player.dash - dt);
+      movePlayer(player, dx, dy, speed, dt);
+
+      let targetX = ball.x - 32, targetY = ball.y;
+      if (ball.x < 500) { targetX = Math.max(610, ball.x + 82); targetY = 300 + (ball.y - 300) * .28; }
+      else { targetX = ball.x + 8; targetY = ball.y + (ball.y > rival.y ? 12 : -12); }
+      targetX = clamp(targetX, 570, 874); targetY = clamp(targetY, 95, 505);
+      let ax = targetX - rival.x, ay = targetY - rival.y;
+      const ad = Math.hypot(ax, ay);
+      if (ad < 19 && ball.x < 500) { ax = ball.x - rival.x; ay = ball.y - rival.y; }
+      const [anx, any] = norm(ax, ay);
+      const botSpeed = ball.x > 810 ? 206 : 180;
+      movePlayer(rival, ad < 20 ? anx : anx * Math.min(1, ad / 40), ad < 20 ? any : any * Math.min(1, ad / 40), botSpeed, dt);
+      if (Math.hypot(ball.x-rival.x, ball.y-rival.y) < 52 && rival.kickWait <= 0 && ball.x < 820) shootRival();
+
+      const pd = Math.hypot(player.x-rival.x, player.y-rival.y), pmin = player.r + rival.r;
+      if (pd < pmin) { const nx = (rival.x-player.x)/(pd||1), ny = (rival.y-player.y)/(pd||1); player.x -= nx*2; player.y -= ny*2; rival.x += nx*2; rival.y += ny*2; }
+      collidePlayerBall(player); collidePlayerBall(rival, true);
+      ball.trail.unshift({x:ball.x,y:ball.y}); if (ball.trail.length > 7) ball.trail.pop();
+      ball.x += ball.vx * dt; ball.y += ball.vy * dt;
+      const friction = Math.pow(.987, dt * 60); ball.vx *= friction; ball.vy *= friction;
+      ball.spin += Math.hypot(ball.vx, ball.vy) * dt * .008;
+      const inGoalY = ball.y > goalTop && ball.y < goalBottom;
+      if (ball.x < field.l && inGoalY) score('ai');
+      else if (ball.x > field.r && inGoalY) score('you');
+      else {
+        if (ball.x < field.l + ball.r) { ball.x = field.l + ball.r; ball.vx = Math.abs(ball.vx) * .72; }
+        if (ball.x > field.r - ball.r) { ball.x = field.r - ball.r; ball.vx = -Math.abs(ball.vx) * .72; }
+        if (ball.y < field.t + ball.r) { ball.y = field.t + ball.r; ball.vy = Math.abs(ball.vy) * .72; }
+        if (ball.y > field.b - ball.r) { ball.y = field.b - ball.r; ball.vy = -Math.abs(ball.vy) * .72; }
+      }
+      if (Math.hypot(ball.vx,ball.vy) < 4) ball.vx = ball.vy = 0;
+    }
+    particles = particles.filter(p => p.life > 0);
+    for (const p of particles) { p.life -= dt; p.x += p.vx * dt; p.y += p.vy * dt; p.vx *= .985; p.vy = p.vy * .985 + 40 * dt; }
+    updateHud();
+  }
+
+  function roundRect(x, y, w, h, r) {
+    ctx.beginPath(); ctx.roundRect(x, y, w, h, r);
+  }
+  function drawField() {
+    ctx.clearRect(0, 0, W, H);
+    const bg = ctx.createLinearGradient(0, 0, W, H); bg.addColorStop(0, '#15352a'); bg.addColorStop(1, '#0b211a');
+    ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = '#193c2d'; ctx.fillRect(field.l, field.t, field.r-field.l, field.b-field.t);
+    const stripeW = (field.r-field.l)/10;
+    for (let i=0;i<10;i++) { ctx.fillStyle = i%2 ? '#ffffff04' : '#06170c10'; ctx.fillRect(field.l+i*stripeW,field.t,stripeW,field.b-field.t); }
+    ctx.save();
+    ctx.strokeStyle = '#e1f4d328'; ctx.lineWidth = 2;
+    ctx.strokeRect(field.l,field.t,field.r-field.l,field.b-field.t);
+    ctx.beginPath(); ctx.moveTo(W/2,field.t); ctx.lineTo(W/2,field.b); ctx.stroke();
+    ctx.beginPath(); ctx.arc(W/2,H/2,70,0,Math.PI*2); ctx.stroke();
+    ctx.fillStyle = '#e1f4d3'; ctx.beginPath(); ctx.arc(W/2,H/2,3.2,0,Math.PI*2); ctx.fill();
+    ctx.strokeRect(field.l,190,115,220); ctx.strokeRect(field.r-115,190,115,220);
+    ctx.strokeRect(field.l,236,48,128); ctx.strokeRect(field.r-48,236,48,128);
+    ctx.beginPath(); ctx.arc(field.l+115,300,3,0,Math.PI*2); ctx.fill(); ctx.beginPath(); ctx.arc(field.r-115,300,3,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(field.l+115,300,43,-.92,.92); ctx.stroke(); ctx.beginPath(); ctx.arc(field.r-115,300,43,Math.PI-.92,Math.PI+.92); ctx.stroke();
+    ctx.restore();
+    // Recessed nets behind each goal mouth.
+    for (const left of [true,false]) {
+      const x = left ? 12 : field.r, w = 36;
+      ctx.fillStyle = '#091710'; ctx.fillRect(x,goalTop,w,goalBottom-goalTop);
+      ctx.strokeStyle = '#d5efdc55'; ctx.lineWidth = 1; ctx.strokeRect(x,goalTop,w,goalBottom-goalTop);
+      ctx.strokeStyle = '#d5efdc19';
+      for(let y=goalTop+12;y<goalBottom;y+=14){ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+w,y);ctx.stroke();}
+      for(let nx=x+10;nx<x+w;nx+=11){ctx.beginPath();ctx.moveTo(nx,goalTop);ctx.lineTo(nx,goalBottom);ctx.stroke();}
+      ctx.fillStyle = '#f3f6e5'; ctx.beginPath(); ctx.arc(left?field.l:field.r,goalTop,4,0,Math.PI*2); ctx.arc(left?field.l:field.r,goalBottom,4,0,Math.PI*2); ctx.fill();
+    }
+    // Grass flecks and softly lit sidelines.
+    ctx.fillStyle = '#d8ff5810';
+    for(let i=0;i<34;i++){const x=field.l+((i*179+41)%880),y=field.t+((i*97+19)%500);ctx.fillRect(x,y,2,2);}
+    const vignette=ctx.createRadialGradient(500,300,230,500,300,650);vignette.addColorStop(0,'#00000000');vignette.addColorStop(1,'#020a0788');ctx.fillStyle=vignette;ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#d8ff5870';ctx.font='900 10px system-ui';ctx.textAlign='left';ctx.fillText('AGENT ARENA  /  01',field.l+10,field.t+18);
+  }
+  function drawPlayer(actor, enemy=false) {
+    const color = enemy ? '#ff705f' : '#d8ff58';
+    const dark = enemy ? '#c74740' : '#a9d943';
+    ctx.save();
+    // A soft ground shadow makes the top-down agents feel lifted from the pitch.
+    ctx.fillStyle='#02090670';ctx.beginPath();ctx.ellipse(actor.x+2,actor.y+8,actor.r*1.03,actor.r*.65,0,0,Math.PI*2);ctx.fill();
+    if (!enemy && charge > .05) {
+      ctx.strokeStyle=`rgba(216,255,88,${.35+charge*.55})`;ctx.lineWidth=3+charge*2;
+      ctx.beginPath();ctx.arc(actor.x,actor.y,actor.r+7+charge*5,-Math.PI/2,-Math.PI/2+Math.PI*2*charge);ctx.stroke();
+    }
+    if (!enemy && actor.dash>0) { ctx.fillStyle='#d8ff5830';ctx.beginPath();ctx.ellipse(actor.x-actor.faceX*14,actor.y-actor.faceY*14,23,17,Math.atan2(actor.faceY,actor.faceX),0,Math.PI*2);ctx.fill(); }
+    const grad=ctx.createRadialGradient(actor.x-6,actor.y-7,2,actor.x,actor.y,actor.r+3);grad.addColorStop(0,enemy?'#ff9b83':'#efff9e');grad.addColorStop(.52,color);grad.addColorStop(1,dark);
+    ctx.fillStyle=grad;ctx.beginPath();ctx.arc(actor.x,actor.y,actor.r,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle=enemy?'#ffd0bd':'#f1ffc8';ctx.lineWidth=2;ctx.stroke();
+    // Directional cap and agent badge.
+    ctx.save();ctx.translate(actor.x,actor.y);ctx.rotate(Math.atan2(actor.faceY,actor.faceX));
+    ctx.fillStyle=enemy?'#762d2a':'#506920';ctx.beginPath();ctx.moveTo(actor.r+2,0);ctx.lineTo(actor.r-4,-6);ctx.lineTo(actor.r-4,6);ctx.closePath();ctx.fill();ctx.restore();
+    ctx.fillStyle=enemy?'#381715':'#283815';ctx.font='900 11px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(enemy?'✦':'★',actor.x,actor.y+.5);
+    if (!enemy) { ctx.fillStyle='#eaffab';ctx.font='900 8px system-ui';ctx.fillText('YOU',actor.x,actor.y-actor.r-11); }
+    ctx.restore();
+  }
+  function drawBall() {
+    for(let i=ball.trail.length-1;i>=0;i--){const p=ball.trail[i],alpha=(1-i/ball.trail.length)*.17;ctx.fillStyle=`rgba(235,244,218,${alpha})`;ctx.beginPath();ctx.arc(p.x,p.y,ball.r*(.32+(1-i/ball.trail.length)*.5),0,Math.PI*2);ctx.fill();}
+    ctx.fillStyle='#02080577';ctx.beginPath();ctx.ellipse(ball.x+2,ball.y+8,ball.r*1.12,ball.r*.62,0,0,Math.PI*2);ctx.fill();
+    ctx.save();ctx.translate(ball.x,ball.y);ctx.rotate(ball.spin);
+    const g=ctx.createRadialGradient(-4,-5,1,0,0,ball.r+1);g.addColorStop(0,'#fff');g.addColorStop(.7,'#e6eadc');g.addColorStop(1,'#9ca99b');
+    ctx.fillStyle=g;ctx.beginPath();ctx.arc(0,0,ball.r,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#26352a';ctx.lineWidth=1.5;ctx.stroke();
+    ctx.fillStyle='#253329';ctx.beginPath();ctx.arc(0,0,3.1,0,Math.PI*2);ctx.fill();
+    for(let i=0;i<5;i++){const a=i*Math.PI*2/5;ctx.beginPath();ctx.arc(Math.cos(a)*6.2,Math.sin(a)*6.2,1.8,0,Math.PI*2);ctx.fill();}
+    ctx.restore();
+  }
+  function draw() {
+    drawField();
+    const actors=[{a:player,e:false},{a:rival,e:true}].sort((a,b)=>a.a.y-b.a.y);
+    for(const entry of actors)drawPlayer(entry.a,entry.e);
+    drawBall();
+    for(const p of particles){ctx.globalAlpha=clamp(p.life/(p.max||1),0,1);ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill();}
+    ctx.globalAlpha=1;
+    if (mode === 'playing' && !keys.has('Space') && dashCooldown > 0) {
+      // Small dash recovery pip lives close to the player's feet.
+      ctx.fillStyle='#08150f';ctx.beginPath();ctx.arc(player.x,player.y+28,3,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle=dashCooldown<.12?'#d8ff58':'#819276';ctx.beginPath();ctx.arc(player.x,player.y+28,2,0,Math.PI*2);ctx.fill();
+    }
+  }
+  function frame(now) {
+    const dt=Math.min(.04,Math.max(0,(now-lastTime)/1000||0));lastTime=now;
+    tick(dt);draw();requestAnimationFrame(frame);
+  }
+  updateHud(); resetPositions(); showOverlay('ready'); requestAnimationFrame((t)=>{lastTime=t;requestAnimationFrame(frame);});
+})();
+</script>
+</body>
+</html>
