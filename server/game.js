@@ -1,6 +1,6 @@
 import { db, transaction } from './db.js'
 import { getFormation, getStyle, PLAY_STYLES } from '../shared/formations.js'
-import { pickLineup, simulateMatch, teamMetrics } from './engine.js'
+import { pickLineup, simulateMatch, teamMetrics } from '../shared/engine.js'
 import {
   allMatches,
   allTeams,

@@ -1,0 +1,13 @@
+{
+  "appId": "com.touchline.fm",
+  "appName": "Touchline '26",
+  "webDir": "dist",
+  "backgroundColor": "#06090c",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "backgroundColor": "#06090c",
+    "allowMixedContent": false
+  }
+}
