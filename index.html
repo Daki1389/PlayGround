@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Soccer Manager 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-mark">SM</div><div><strong>Soccer Manager</strong><span>2026</span></div></div>
+      <div class="club-mini"><div class="club-crest">⚡</div><div><b>Riverside FC</b><small>Premier Division</small></div><i>⌄</i></div>
+      <nav class="main-nav">
+        <p class="nav-label">MANAGEMENT</p>
+        <button class="nav-item active" data-view="overview"><span>▦</span> Overview</button>
+        <button class="nav-item" data-view="squad"><span>♙</span> Squad <em>23</em></button>
+        <button class="nav-item" data-view="tactics"><span>⌘</span> Tactics</button>
+        <button class="nav-item" data-view="training"><span>✦</span> Training</button>
+        <button class="nav-item" data-view="transfers"><span>↔</span> Transfers <em class="hot">3</em></button>
+        <p class="nav-label space">CLUB</p>
+        <button class="nav-item" data-view="facilities"><span>▤</span> Facilities</button>
+        <button class="nav-item" data-view="finance"><span>◈</span> Finances</button>
+        <button class="nav-item" data-view="inbox"><span>▰</span> Inbox <em class="hot">4</em></button>
+      </nav>
+      <div class="sidebar-bottom"><div class="season-card"><div><span>SEASON 12</span><strong>League Matchday 8</strong></div><b>18:42</b><div class="progress"><i></i></div><small>Next match in 2 days</small></div><div class="profile"><div class="avatar">JM</div><div><b>Jordan Mitchell</b><small>Head Coach</small></div><span>⚙</span></div></div>
+    </aside>
+    <main class="main-content">
+      <header class="topbar"><div class="crumb"><span>RIVERSIDE FC</span><b>/</b><strong id="page-title">OVERVIEW</strong></div><div class="top-actions"><div class="resource"><span class="coin">●</span><b id="cash">$8.42M</b><small>+ $125K</small></div><div class="resource"><span class="gem">◆</span><b>1,240</b><small>+ 50</small></div><button class="icon-btn">⌕</button><button class="icon-btn has-dot">♧</button></div></header>
+      <div id="view-container"></div>
+    </main>
+  </div>
+  <div class="toast" id="toast">Training session scheduled</div>
+  <script src="app.js"></script>
+</body>
+</html>
